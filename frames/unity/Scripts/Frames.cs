@@ -3,13 +3,23 @@ using Newtonsoft.Json;
 
 namespace Frames
 {
-    public class Encoder
+    public class Frames
     {
         private List<Frame> frames;
-        
-        public Encoder()
+
+        public Frames()
         {
             frames = new List<Frame>();
+        }
+
+        private Frames(List<Frame> frames)
+        {
+            this.frames = frames;
+        }
+
+        public static Frames FromJson(string json)
+        {
+            return new Frames(new List<Frame>());
         }
 
         public void AddFrame(Frame frame)
@@ -17,7 +27,7 @@ namespace Frames
             frames.Add(frame);
         }
 
-        public string Print()
+        public string ToJson()
         {
             string result = "";
 
@@ -25,7 +35,7 @@ namespace Frames
             {
                 result += JsonConvert.SerializeObject(frame, Formatting.Indented, new FrameJsonConverter());
             }
-            
+
             return result;
         }
     }
