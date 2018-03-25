@@ -19,7 +19,12 @@ namespace Frames
 
         public static Frames FromJson(string json)
         {
-            return new Frames(new List<Frame>());
+            return JsonConvert.DeserializeObject<Frames>(json, new FramesJsonConverter());
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented, new FramesJsonConverter());
         }
 
         public void AddFrame(Frame frame)
@@ -27,16 +32,9 @@ namespace Frames
             frames.Add(frame);
         }
 
-        public string ToJson()
+        public List<Frame> ToList()
         {
-            string result = "";
-
-            foreach (var frame in frames)
-            {
-                result += JsonConvert.SerializeObject(frame, Formatting.Indented, new FrameJsonConverter());
-            }
-
-            return result;
+            return frames;
         }
     }
 }
