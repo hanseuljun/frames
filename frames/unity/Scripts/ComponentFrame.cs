@@ -1,4 +1,8 @@
-﻿public interface ComponentFrame
+﻿namespace Frames
 {
-    JsonComponentFrame ToJson();
+    public interface ComponentFrame
+    {
+        JsonComponentFrame ToJsonComponent();
+        string ToJsonString();
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Frames
 {
@@ -17,9 +18,14 @@ namespace Frames
             this.scale = scale;
         }
 
-        public JsonComponentFrame ToJson()
+        public JsonComponentFrame ToJsonComponent()
         {
             return new JsonTransformFrame(position, rotation, scale);
+        }
+
+        public string ToJsonString()
+        {
+            return JsonConvert.SerializeObject(ToJsonComponent());
         }
     }
 }

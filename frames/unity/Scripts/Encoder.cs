@@ -23,15 +23,9 @@ namespace Frames
 
             foreach (var frame in frames)
             {
-                foreach (var componentFramePair in frame.ToDictionary())
-                {
-                    var type = componentFramePair.Key;
-                    foreach (var componentFrame in componentFramePair.Value)
-                    {
-                        result += JsonConvert.SerializeObject(componentFrame.ToJson());
-                    }
-                }
+                result += JsonConvert.SerializeObject(frame, Formatting.Indented, new FrameJsonConverter());
             }
+            
             return result;
         }
     }
