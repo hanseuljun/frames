@@ -3,18 +3,38 @@ using Frames;
 
 public class Tester : MonoBehaviour
 {
-    public void Start()
+    public TestAnimator testAnimator;
+    public TestReplayer testReplayer;
+    private Frames.Frames frames;
+    private bool record;
+
+    private void Start()
     {
-        var frame = new Frame();
-        frame.AddComponentFrame(new TransformFrame(Vector3.up, Quaternion.identity, Vector3.one * 2.0f));
-        frame.AddComponentFrame(new TransformFrame(Vector3.down, Quaternion.identity, Vector3.one * 1.0f));
+        testAnimator.Play();
+        frames = new Frames.Frames();
+        record = true;
+    }
 
-        var frames1 = new Frames.Frames();
-        frames1.AddFrame(frame);
-        string json = frames1.ToJson();
-        print(json);
+    private void Update()
+    {
+        if(record && Time.time > 2.0f)
+        {
+            record = false;
+            testAnimator.Stop();
+            testReplayer.Replay(frames);
+        }
 
-        var frames2 = Frames.Frames.FromJson(json);
-        print("frames2:" + frames2.ToList().Count);
+        if(record)
+        {
+            var transform = testAnimator.transform;
+            var transformFrame = new TransformFrame(transform.localPosition,
+                                                    transform.localRotation,
+                                                    transform.localScale);
+
+            var frame = new Frame();
+            frame.AddComponentFrame(transformFrame);
+
+            frames.AddFrame(frame);
+        }
     }
 }

@@ -27,5 +27,20 @@ namespace Frames
         {
             return JsonConvert.SerializeObject(ToJsonComponent());
         }
+
+        public Vector3 GetPosition()
+        {
+            return position;
+        }
+
+        public Quaternion GetRotation()
+        {
+            return rotation;
+        }
+
+        public Vector3 GetScale()
+        {
+            return scale;
+        }
     }
 }

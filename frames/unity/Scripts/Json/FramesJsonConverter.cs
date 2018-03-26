@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -39,10 +38,33 @@ namespace Frames
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            Debug.Log("FramesJsonConverter.ReadJson 1");
-            JObject jsonObject = JObject.Load(reader);
-            Debug.Log("FramesJsonConverter.ReadJson 2");
-            return new Frames();
+            var frames = new Frames();
+
+            var jFrames = JObject.Load(reader);
+            var jFrameList = jFrames.GetValue(typeof(Frame).ToString());
+            foreach(var jFrame in jFrameList.Children())
+            {
+                var frame = new Frame();
+                foreach (var jFrameProperty in jFrame.Value<JObject>().Properties())
+                {
+                    if (jFrameProperty.Name == typeof(TransformFrame).ToString())
+                    {
+                        foreach (var jTransformFrame in jFrameProperty.Values())
+                        {
+                            var transformFrame = jTransformFrame.ToObject<JsonTransformFrame>()
+                                                                .ToTransformFrame();
+                            frame.AddComponentFrame(transformFrame);
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+                frames.AddFrame(frame);
+            }
+
+            return frames;
         }
 
         public override bool CanConvert(Type objectType)

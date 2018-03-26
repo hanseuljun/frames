@@ -16,5 +16,12 @@ namespace Frames
             this.rotation = new JsonQuaternion(rotation);
             this.scale = new JsonVector3(scale);
         }
+
+        public TransformFrame ToTransformFrame()
+        {
+            return new TransformFrame(position.ToVector3(),
+                                      rotation.ToQuaternion(),
+                                      scale.ToVector3());
+        }
     }
 }

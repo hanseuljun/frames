@@ -16,5 +16,10 @@ namespace Frames
             y = quaternion.y;
             z = quaternion.z;
         }
+
+        public Quaternion ToQuaternion()
+        {
+            return new Quaternion(x, y, z, w);
+        }
     }
 }
